@@ -56,6 +56,8 @@ async def assign_achievement_to_player(player_id: UUID, achievement_id: UUID, db
     if not player:
         raise HTTPException(status_code=404, detail="Player not found")
 
+    player.balance += achievement.reward
+
     new_player_achievement = PlayerAchievement(player_id=player_id, achievement_id=achievement_id)
     db.add(new_player_achievement)
     await db.commit()

@@ -14,7 +14,7 @@ from models.models import Player
 import json
 app = FastAPI()
 
-# Включаем маршруты аутентификации
+
 app.include_router(auth_router)
 app.include_router(achievements_router)
 app.include_router(leaderboard_router)
