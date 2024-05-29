@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from passlib.context import CryptContext
 from sqlalchemy.future import select
 from database import get_db
-from models.models import Player, PlayerCreate, PlayerAchievement
+from models.models import Player, PlayerInfo, PlayerAchievement
 from typing import List
 import uuid
 auth_router = APIRouter(prefix="/auth", tags=["Аутентификация"])
@@ -19,7 +19,7 @@ def get_password_hash(password):
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-@auth_router.post("/register/", response_model=PlayerCreate, summary="Регистрация нового игрока")
+@auth_router.post("/register/", response_model=PlayerInfo, summary="Регистрация нового игрока")
 async def create_player(username: str, password: str, db: AsyncSession = Depends(get_db)):
     #new_player = Player(**player.dict())
     new_player = Player()
@@ -33,7 +33,7 @@ async def create_player(username: str, password: str, db: AsyncSession = Depends
     await db.refresh(new_player)
     return new_player
 
-@auth_router.get("/login/", summary="Вход в игру")
+@auth_router.get("/login/", response_model=PlayerInfo, summary="Вход в игру")
 async def login_user(username: str, password: str, db: AsyncSession = Depends(get_db)):
     stmt = select(Player).filter(Player.username == username)
     result = await db.execute(stmt)

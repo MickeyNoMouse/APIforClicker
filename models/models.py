@@ -94,10 +94,9 @@ class Tool(Base):
 from pydantic import BaseModel
 from uuid import UUID
 
-class PlayerCreate(BaseModel):
+class PlayerInfo(BaseModel):
     id: UUID
     username: str
-    hashed_password: str
     balance: int = 0
     current_tool_id: UUID
     current_location_id: UUID
