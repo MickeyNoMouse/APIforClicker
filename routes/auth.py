@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 from passlib.context import CryptContext
 from sqlalchemy.future import select
@@ -20,7 +20,7 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 @auth_router.post("/register/", response_model=PlayerInfo, summary="Регистрация нового игрока")
-async def create_player(username: str, password: str, db: AsyncSession = Depends(get_db)):
+async def create_player(username: str = Form(...), password: str = Form(...), db: AsyncSession = Depends(get_db)):
     #new_player = Player(**player.dict())
     new_player = Player()
     new_player.id=uuid.uuid4()

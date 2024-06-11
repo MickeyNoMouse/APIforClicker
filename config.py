@@ -5,8 +5,8 @@ import os
 class Settings(BaseSettings):
     app_name: str = "clicker"
     admin_email: str = "mikhailcherevkov@gmail.com"
-    POSTGRES_URLS: str = "postgresql://postgres:mikhail@localhost:5432/clicker"
-    POSTGRES_URLA: str = "postgresql+asyncpg://postgres:mikhail@localhost:5432/clicker"
+    POSTGRES_URLS: str = f"postgresql://postgres:mikhail@localhost:5432/testclick"
+    POSTGRES_URLA: str = "postgresql+asyncpg://postgres:mikhail@localhost:5432/testclick"
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_HOST: str
@@ -18,7 +18,7 @@ settings = Settings()
 
 settings.POSTGRES_PORT = int(os.environ.get('POSTGRES_PORT', 5432))
 settings.POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'mikhail')
-settings.POSTGRES_DB = os.environ.get('POSTGRES_DB', 'clicker')
+settings.POSTGRES_DB = os.environ.get('POSTGRES_DB', 'testclick')
 settings.POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
 settings.POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
 

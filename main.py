@@ -1,4 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from database import init_db
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from routes.auth import auth_router
@@ -12,6 +14,7 @@ from database import get_db
 from typing import List
 from models.models import Player
 import json
+import asyncio
 app = FastAPI()
 
 
@@ -22,6 +25,13 @@ app.include_router(locations_router)
 app.include_router(tools_router)
 app.include_router(buys_router)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ConnectionManager:
     def __init__(self):
@@ -65,7 +75,7 @@ async def websocket_endpoint(websocket: WebSocket, player_id: UUID, db: AsyncSes
         await manager.broadcast(f"Player {player_id} left the chat")
 
 
-
 if __name__ == "__main__":
     import uvicorn
+    asyncio.run(init_db())
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

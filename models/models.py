@@ -72,12 +72,6 @@ class PlayerTool(Base):
     player = relationship("Player", back_populates="tools")
     tool = relationship("Tool", back_populates="player_tools")
 
-# class Statistics(Base):
-#     __tablename__ = "statistics"
-#     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-#     player_id = Column(UUID(as_uuid=True), ForeignKey("players.id"))
-#     clicks = Column(Integer)
-#     score = Column(Integer)
 
 class Tool(Base):
     __tablename__ = "tools"
